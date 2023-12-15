@@ -8,7 +8,7 @@
         {
             Console.WriteLine($"Итерация {i} в Задаче: {Task.CurrentId}, Имя потока: {Thread.CurrentThread.Name}");
 
-            Task.Delay(t).Wait();
+            Task.Delay(t);
         }
     });
 }
