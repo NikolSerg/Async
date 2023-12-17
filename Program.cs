@@ -1,26 +1,31 @@
-﻿async Task AsyncCounter(int t, int i)
+﻿async Task AsyncCounter(int t, string id)
 {
     await Task.Run(() =>
     {
-        Thread.CurrentThread.Name = "Поток " + i;
+        Thread.CurrentThread.Name = "Поток " + Thread.CurrentThread.ManagedThreadId.ToString();
         Thread.CurrentThread.IsBackground = false;
         for (int i = 0; i < 100; i++)
         {
-            Console.WriteLine($"Итерация {i} в Задаче: {Task.CurrentId}, Имя потока: {Thread.CurrentThread.Name}");
+            Console.WriteLine($"Итерация {i} в Задаче: {Task.CurrentId}, Имя потока: {Thread.CurrentThread.Name}, Базовый поток: {id}");
 
             Task.Delay(t);
         }
     });
 }
-void Start()
+void Start(int max)
 {
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < max; i++)
     {
-        AsyncCounter(new Random().Next(10, 50), i);
+        AsyncCounter(new Random().Next(10, 50), Thread.CurrentThread.Name);
     }
 }
 
-Start();
+Thread th1 = new Thread(() => Start(10));
+th1.Name = "Первый";
+Thread th2 = new Thread(() => Start(5));
+th2.Name = "Второй";
+th1.Start();
+th2.Start();
 
 //Console.ReadLine();
 
