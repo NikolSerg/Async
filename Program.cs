@@ -16,7 +16,7 @@ void Start(int max)
 {
     for (int i = 0; i < max; i++)
     {
-        AsyncCounter(new Random().Next(10, 50), Thread.CurrentThread.Name);
+        Task task = AsyncCounter(new Random().Next(10, 50), Thread.CurrentThread.Name);
     }
 }
 
